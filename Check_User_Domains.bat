@@ -1,38 +1,41 @@
-:: ------------------------------------------------
-:: Script : Check_User_Domains.bat
-:: Purpose : Collects a list of all user accounts on the computer, 
-::          showing whether they are domain or local accounts.
-::          Also logs profile folders and current user info. 
-:: Usage : Double-click to run. No admin rights needed. 
-:: Output : Saves results to a text file on the Desktop.
-:: ------------------------------------------------
 
-:: Prevent each command in the script from being displayed
-@echo off 
-:: Starts localization of environment changes - ensures variables don't leak outside the script
+:: ------------------------------------------------------------
+:: Script: Check_User_Domains.bat
+:: Purpose: Collects a list of all user accounts on the computer,
+::          showing whether they are domain or local accounts.
+::          Also logs profile folders and current user info.
+:: Usage:   Double-click to run. No admin rights needed.
+:: Output:  Saves results to a text file on the Desktop.
+:: ------------------------------------------------------------
+
+:: Prevents each command in the script from being displayed
+@echo off
+
+:: Starts localization of environment changes — ensures variables don't leak outside the script
 setlocal
 
-:: Set the output file path to Desktop
+:: Set the output file path to a file on the current user's desktop
 set OUTPUT_FILE=%USERPROFILE%\Desktop\User_Account_Check.txt
 
-:: Start writing to the file with a header
-
-echo ---------------------------------------------------------------> "%OUTPUT_FILE%"
-echo User Ccount Domain Check - %DATE% %TIME% >> "%OUTPUT_FILE%"
-echo ---------------------------------------------------------------> "%OUTPUT_FILE%"
+:: Start writing header to the output file
+echo -------------------------------------------- > "%OUTPUT_FILE%"
+echo User Account Domain Check - %DATE% %TIME% >> "%OUTPUT_FILE%"
+echo -------------------------------------------- >> "%OUTPUT_FILE%"
 echo. >> "%OUTPUT_FILE%"
 
-:: List all user accounts with domain and SID
+:: List all user accounts on the system with domain and SID info
 echo Listing all user accounts (with domain info)... >> "%OUTPUT_FILE%"
 wmic useraccount get name,domain,sid >> "%OUTPUT_FILE%"
 
 echo. >> "%OUTPUT_FILE%"
 
-:: Show folder names in C:\Users (hints at past logins or profiles)
+:: Show user profile folders in C:\Users — useful to see which users have logged in before
 echo Listing profiles found in C:\Users... >> "%OUTPUT_FILE%"
 dir "C:\Users" /b >> "%OUTPUT_FILE%"
 
-:: Show current user, domain, and computer name
+echo. >> "%OUTPUT_FILE%"
+
+:: Log current user's username, domain, and machine name
 echo Currently logged in user info... >> "%OUTPUT_FILE%"
 echo User: %USERNAME% >> "%OUTPUT_FILE%"
 echo Domain: %USERDOMAIN% >> "%OUTPUT_FILE%"
@@ -40,8 +43,8 @@ echo Computer Name: %COMPUTERNAME% >> "%OUTPUT_FILE%"
 
 echo. >> "%OUTPUT_FILE%"
 
-:: Wrap-up message
-echo Script Completed. Output saved to "%OUTPUT_FILE%"
+:: Final message to indicate script finished
+echo Script completed. Output saved to: %OUTPUT_FILE%
 
-:: Pause so the user can see that it finished 
+:: Keep the window open until the user presses a key
 pause
