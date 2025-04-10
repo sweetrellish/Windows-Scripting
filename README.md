@@ -1,2 +1,2 @@
 # Windows-Scripting
-Windows .bat files for networking applications, open source scripting workspace for future usage. 
+Windows .bat and .ps1 files for networking applications through command line interface or PowerShell, open source scripting workspace for future usage. 
